@@ -17,18 +17,18 @@ def new_zillow_data():
     Returns zillow into a dataframe
     '''
     sql_query = '''
-select *
-from properties_2017
-join (select parcelid, logerror, max(transactiondate) as transactiondate 
+SELECT *
+FROM properties_2017
+JOIN (SELECT parcelid, logerror, MAX(transactiondate) as transactiondate 
 FROM predictions_2017 group by parcelid, logerror) as pred_2017 using(parcelid) 
-left join airconditioningtype using(airconditioningtypeid)
-left join architecturalstyletype using(architecturalstyletypeid)
-left join buildingclasstype using(buildingclasstypeid)
-left join heatingorsystemtype using(heatingorsystemtypeid)
-left join propertylandusetype using(propertylandusetypeid)
-left join storytype using(storytypeid)
-left join typeconstructiontype using(typeconstructiontypeid)
-where properties_2017.latitude is not null
+LEFT JOIN airconditioningtype using(airconditioningtypeid)
+LEFT JOIN architecturalstyletype using(architecturalstyletypeid)
+LEFT JOIN buildingclasstype using(buildingclasstypeid)
+LEFT JOIN heatingorsystemtype using(heatingorsystemtypeid)
+LEFT JOIN propertylandusetype using(propertylandusetypeid)
+LEFT JOIN storytype using(storytypeid)
+LEFT JOIN typeconstructiontype using(typeconstructiontypeid)
+WHERE properties_2017.latitude is not null
 and properties_2017.longitude is not null;
 '''
     df = pd.read_sql(sql_query, get_connection('zillow'))
